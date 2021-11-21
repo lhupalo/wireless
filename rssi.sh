@@ -23,7 +23,7 @@ do
         tput el
 done
 
-echo 'RSSI [dbm]' >> $output_path
+echo 'Wi-Fi RSSI [dbm]' >> $output_path
 fgrep -w Signal $temporary_path | awk 'BEGIN{FS = "level=";} {print $NF;}' | awk '{print $1}' >> $output_path
 
 rm $temporary_path
