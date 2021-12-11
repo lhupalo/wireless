@@ -1,0 +1,5 @@
+Bluetooth RSSI [dbm]
+-67
+-64
+-66
+-63
