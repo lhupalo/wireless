@@ -1,2 +1,2 @@
-# rssi
-RSSI measuring
+# RSSI 
+Some investigations about RSSI measuring
