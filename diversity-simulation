@@ -1,0 +1,143 @@
+close all;
+clear all;
+
+
+rand('state',0);
+randn('state',0);
+
+
+bits=1e7;
+M=2;
+
+b=rand(1,bits)>0.5;
+x=2*b-1; 
+N0=1; 
+n=randn(1,bits)*sqrt(N0/2);
+ebn0upper=14;
+
+%% AWGN
+
+
+EbN0dBa = [];
+bera = [];
+Pbawgna = [];
+
+for EbN0dB = 0:0.1:ebn0upper
+
+    EbN0=10^(EbN0dB/10); 
+    Eb=EbN0*N0; 
+    Es=Eb*log2(M); 
+    y=sqrt(Es)*x+n; 
+    b_est=y>0;
+    erros=sum(b~=b_est); 
+    ber=erros/bits;
+    Pbawgn=qfunc(sqrt(2*EbN0));
+    Pbawgna = [Pbawgna Pbawgn];
+    bera = [bera ber];
+    EbN0dBa = [EbN0dBa EbN0dB];
+
+end
+
+figure
+semilogy(EbN0dBa,Pbawgna,'g')
+hold
+%% Rayleigh
+
+
+EbN0dBr = [];
+berr = [];
+hr=raylrnd(1/sqrt(2),1,bits);
+Pbraya = [];
+
+for EbN0dB = 0:0.1:ebn0upper
+    
+    EbN0=10^(EbN0dB/10);
+    Eb=EbN0*N0; 
+    Es=Eb*log2(M); 
+    y=sqrt(Es)*hr.*x+n;
+    b_est=y>0; 
+    erros=sum(b~=b_est);
+    ber=erros/bits;
+    Pbray = (1/2)*(1-sqrt(EbN0/(1+EbN0)));
+    Pbraya = [Pbraya Pbray];
+    berr = [berr ber];
+    EbN0dBr = [EbN0dBr EbN0dB];
+
+end
+
+semilogy(EbN0dBr,Pbraya,'m')
+title('BER-Rayleigh e AWGN para M = 1')
+legend({'AWGN-Teórico','Rayleigh-Teórico'},'Location','southwest');
+xlabel('Eb/N0 (dB)')
+ylabel('BER')
+grid on
+
+%% Para duas antenas
+
+EbN0dBrsc = [];
+berrsc = [];
+hr1=raylrnd(1/sqrt(2),1,bits);
+hr2=raylrnd(1/sqrt(2),1,bits);
+hmax = max(hr1, hr2);
+
+Pbrayasc = [];
+
+
+for EbN0dB = 0:0.1:ebn0upper
+    
+    EbN0=10^(EbN0dB/10);
+    Eb=EbN0*N0;
+    Es=Eb*log2(M); 
+    y=sqrt(Es)*hmax.*x+n; 
+    b_est=y>0; 
+    erros=sum(b~=b_est);
+    ber=erros/bits;
+    Pbray = (1/2)*(1-sqrt(EbN0/(1+EbN0))); 
+    Pbrayasc = [Pbrayasc Pbray];
+    berrsc = [berrsc ber];
+    EbN0dBrsc = [EbN0dBrsc EbN0dB];
+
+end
+
+
+%% Para duas antenas MRC
+N0=1;
+n1=randn(1,bits)*sqrt(N0/2);
+n2=randn(1,bits)*sqrt(N0/2);
+
+
+EbN0dBrmrc = [];
+berrmrc = [];
+hr1=raylrnd(1/sqrt(2),1,bits);
+hr2=raylrnd(1/sqrt(2),1,bits);
+
+Pbrayamrc = [];
+
+
+for EbN0dB = 0:0.1:ebn0upper
+    
+    EbN0=10^(EbN0dB/10); 
+    Eb=EbN0*N0; 
+    Es=Eb*log2(M);
+    y1=sqrt(Es)*hr1.*x+n1;
+    y2=sqrt(Es)*hr2.*x+n2; 
+    y = hr1.*y1 + hr2.*y2;
+    b_est=y>0;
+    erros=sum(b~=b_est);
+    ber=erros/bits;
+    Pbray = (1/2)*(1-sqrt(EbN0/(1+EbN0)));
+    Pbrayamrc = [Pbrayamrc Pbray];
+    berrmrc = [berrmrc ber];
+    EbN0dBrmrc = [EbN0dBrmrc EbN0dB];
+
+end
+
+figure
+semilogy(EbN0dBrsc,berrsc,'r')
+hold
+semilogy(EbN0dBrmrc,berrmrc,'b')
+title('BER-Rayleigh SC e MRC com M = 2')
+legend({'Rayleigh SC', 'Rayleigh MRC'},'Location','southwest');
+xlabel('Eb/N0 (dB)')
+grid on
+ylabel('BER')
