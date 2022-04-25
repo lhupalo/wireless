@@ -1,0 +1,85 @@
+%% BPSK
+semilogy(ebnobpsk_norm,ber_bpsk_rica)
+hold
+semilogy(ebnobpsk_norm,ber_bpsk_diver)
+semilogy(ebnobpsk_norm,ber_bpsk_norm)
+legend({'BPSK-MRC-Por antena','BPSK-MRC','BPSK'},'Location','southwest')
+xlabel('Eb/N0')
+ylabel('BER')
+grid on
+title('BPSK')
+
+%% QPSK
+figure(2)
+semilogy(ebnobpsk_norm,ber_qpsk_rica)
+hold
+semilogy(ebnobpsk_norm,ber_qpsk_diver)
+semilogy(ebnobpsk_norm,ber_qpsk_norm)
+legend({'QPSK-MRC-Por antena','QPSK-MRC','QPSK'},'Location','southwest')
+xlabel('Eb/N0')
+ylabel('BER')
+grid on
+title('QPSK')
+
+%% 8PSK
+figure(3)
+semilogy(ebnobpsk_norm,ber_8psk_rica)
+hold
+semilogy(ebnobpsk_norm,ber_8psk_diver)
+semilogy(ebnobpsk_norm,ber_8psk_norm)
+legend({'8PSK-MRC-Por antena','8PSK-MRC','8PSK'},'Location','southwest')
+xlabel('Eb/N0')
+ylabel('BER')
+grid on
+title('8PSK')
+
+%% 16PSK
+figure(4)
+semilogy(ebnobpsk_norm,ber_16psk_rica)
+hold
+semilogy(ebnobpsk_norm,ber_16psk_diver)
+semilogy(ebnobpsk_norm,ber_16psk_norm)
+legend({'16PSK-MRC-Por antena','16PSK-MRC','16PSK'},'Location','southwest')
+xlabel('Eb/N0')
+ylabel('BER')
+grid on
+title('16PSK')
+
+%% Plots juntos norm
+figure(5)
+semilogy(ebnobpsk_norm,ber_bpsk_norm)
+hold
+semilogy(ebnobpsk_norm,ber_qpsk_norm)
+semilogy(ebnobpsk_norm,ber_8psk_norm)
+semilogy(ebnobpsk_norm,ber_16psk_norm)
+legend({'BPSK','QPSK','8-PSK','16-PSK'},'Location','southwest')
+xlabel('Eb/N0')
+ylabel('BER')
+grid on
+title('Sem diversidade')
+
+%% Plots juntos diver
+figure(6)
+semilogy(ebnobpsk_norm,ber_bpsk_diver)
+hold
+semilogy(ebnobpsk_norm,ber_qpsk_diver)
+semilogy(ebnobpsk_norm,ber_8psk_diver)
+semilogy(ebnobpsk_norm,ber_16psk_diver)
+legend({'BPSK','QPSK','8-PSK','16-PSK'},'Location','southwest')
+xlabel('Eb/N0')
+ylabel('BER')
+grid on
+title('Com diversidade')
+
+%% Plots juntos rica
+figure(7)
+semilogy(ebnobpsk_norm,ber_bpsk_rica)
+hold
+semilogy(ebnobpsk_norm,ber_qpsk_rica)
+semilogy(ebnobpsk_norm,ber_8psk_rica)
+semilogy(ebnobpsk_norm,ber_16psk_rica)
+legend({'BPSK','QPSK','8-PSK','16-PSK'},'Location','southwest')
+xlabel('Eb/N0')
+ylabel('BER')
+grid on
+title('Com diversidade-Por antena')
