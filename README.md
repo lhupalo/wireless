@@ -1,2 +1,3 @@
-# RSSI 
-Some investigations about RSSI measuring
+# Wireless 
+
+Notes on wireless communications
