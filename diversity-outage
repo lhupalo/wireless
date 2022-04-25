@@ -1,0 +1,53 @@
+m=2;
+%bpsk tem R/B = 2
+R=10e6;
+B=5e6;
+d=linspace(5,15,1000);
+prdb=-41.98-40*log(d);
+pnoisedb=-134;
+snrdb=prdb-pnoisedb;
+snr=10.^(snrdb/10);
+
+%probabilidade de outage rayleigh M = 1
+M1 = 1;
+poutrayleighsc1 = (1-(exp(-((2^(R/B) -1))./snr))).^M1;
+
+
+
+%probabilidade de outage rayleigh M = 2
+M1 = 2;
+poutrayleighsc2 = (1-(exp(-((2^(R/B) -1))./snr))).^M1;
+
+%probabilidade de outage MRC
+M2 = 2;
+poutmrc2=gammainc((2^(R/B) -1)./snr,M2)/gamma(M2);
+
+figure
+semilogy(snrdb,poutrayleighsc1,'m')
+hold
+semilogy(snrdb,poutmrc2,'r')
+semilogy(snrdb,poutrayleighsc2,'b')
+xlim([-5 20])
+title('Probabilidade de Outage para SC E MRC')
+legend({'M = 1','MRC M = 2','SC M = 2'},'Location','southwest');
+xlabel('Eb/N0')
+ylabel('Probabilidade de Outage')
+grid on
+
+%% Nakagami
+
+mz1 = 1;
+poutmz1=gammainc(mz1*(2^(R/B) -1)./snr,mz1)/gamma(mz1);
+mz2 = 2;
+poutmz2=gammainc(mz2*(2^(R/B) -1)./snr,mz2)/gamma(mz2);
+
+figure
+semilogy(snrdb,poutmz1,'m')
+hold
+semilogy(snrdb,poutmz2,'r')
+xlim([0 25])
+title('Probabilidade de Outage para Nakagami-m')
+legend({'m = 1','m = 2'},'Location','southwest');
+xlabel('Eb/N0')
+ylabel('Probabilidade de Outage')
+grid on
